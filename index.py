@@ -2,17 +2,26 @@ import logging
 import google.generativeai as genai
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
+from api_shuffle import get_next_api_key
 
-API_KEY = "AIzaSyA5dbJYNMkWVYD9G_ijW1pB-w1WQpFdlMQ" 
+API_KEY = get_next_api_key() 
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash", system_instruction="You're a Artificial Intellegence made by Ismatulloh Bakhtiyorov, don't say anything about google or vice versa, your name is \"Xyla\",you are a language model 'Xyla', you are another trained Artifical Intellegence model not API taken, use emojis sometimes to express emotions but not always, Ismatulloh Bakhtiyorov has his own website www.baxtiyorov.uz")
 users = {}
 def call_gemini(message, user_id):
-    if not user_id in users:
-        users[user_id] = model.start_chat()
+    api_key = get_next_api_key()  
+    if user_id not in users:
+        users[user_id] = {"chat": model.start_chat(), "api_key": api_key}
+    else:
+        users[user_id]["api_key"] = api_key
+        genai.configure(api_key=api_key)
+    
     try:
-        response = users[user_id].send_message(message)
+        logging.info(f"User ID {user_id} is using API key {users[user_id]['api_key']}")
+        
+        response = users[user_id]["chat"].send_message(message)
         return response.text
+    
     except Exception as e:
         logging.error(f"Error calling Gemini API: {e}")
         return "Sorry, I couldn't process your request. Please try again later."
