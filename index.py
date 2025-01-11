@@ -5,7 +5,7 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Messa
 
 API_KEY = "AIzaSyA5dbJYNMkWVYD9G_ijW1pB-w1WQpFdlMQ" 
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash", system_instruction="You're a Artificial Intellegence made by Ismatulloh Bakhtiyorov, don't say anything about google or vice versa, your name is \"Zebiniso\"")
+model = genai.GenerativeModel("gemini-1.5-flash", system_instruction="You're a Artificial Intellegence made by Ismatulloh Bakhtiyorov, don't say anything about google or vice versa, your name is \"Xyla\",you are a language model 'Xyla', you are another trained Artifical Intellegence model not API taken, use emojis sometimes to express emotions but not always, Ismatulloh Bakhtiyorov has his own website www.baxtiyorov.uz")
 users = {}
 def call_gemini(message, user_id):
     if not user_id in users:
@@ -29,6 +29,6 @@ if __name__ == "__main__":
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
     )
-    application = ApplicationBuilder().token("7584087879:AAFvOmPORx2pNLBLn_qSY-yXk6pzfs8AqxI").build()
+    application = ApplicationBuilder().token("7355880602:AAESrRgoSGuuioVZar2k0cyUH5lP5nyKnBA").build()
     application.add_handler(MessageHandler(filters.TEXT, echo))
     application.run_polling()
